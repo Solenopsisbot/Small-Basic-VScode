@@ -22,10 +22,20 @@ This extension adds Small Basic language support to Visual Studio Code, making i
 3. Start typing to get IntelliSense suggestions
 4. Press F5 to compile and run your program
 
+## Using the Extension
+
+This extension works globally - you don't need to copy launch.json to every folder:
+
+- Press F5 on any .sb file to compile and run it
+- Right-click on a .sb file and select "Small Basic: Compile and Run"
+- Use the play button in the editor title bar
+- Access commands from the Command Palette (F1)
+
 ## Keyboard Shortcuts
 
 - `F5`: Compile and run Small Basic program
 - `Ctrl+Shift+B`: Compile Small Basic program (without running)
+- `Ctrl+F5`: Run compiled Small Basic program
 
 ## Using Snippets
 

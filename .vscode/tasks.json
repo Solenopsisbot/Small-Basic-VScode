@@ -10,10 +10,7 @@
                 "reveal": "always",
                 "panel": "shared"
             },
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
+            "group": "build"
         },
         {
             "label": "Small Basic: Run Compiled File",
@@ -23,7 +20,8 @@
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
-            }
+            },
+            "group": "build"
         },
         {
             "label": "Small Basic: Compile and Run",
@@ -35,7 +33,7 @@
                 "panel": "shared"
             },
             "group": {
-                "kind": "test",
+                "kind": "build",
                 "isDefault": true
             }
         }

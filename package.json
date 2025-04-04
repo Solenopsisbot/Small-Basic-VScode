@@ -41,17 +41,20 @@
             {
                 "command": "smallbasic.compileAndRun",
                 "title": "Small Basic: Compile and Run",
-                "icon": "$(play)"
+                "icon": "$(play)",
+                "enablement": "resourceLangId == smallbasic"
             },
             {
                 "command": "smallbasic.compile",
                 "title": "Small Basic: Compile",
-                "icon": "$(gear)"
+                "icon": "$(gear)",
+                "enablement": "resourceLangId == smallbasic"
             },
             {
                 "command": "smallbasic.run",
                 "title": "Small Basic: Run",
-                "icon": "$(play-circle)"
+                "icon": "$(play-circle)",
+                "enablement": "resourceLangId == smallbasic"
             }
         ],
         "menus": {
@@ -77,6 +80,13 @@
                     "when": "resourceLangId == smallbasic",
                     "group": "1_run"
                 }
+            ],
+            "explorer/context": [
+                {
+                    "command": "smallbasic.compileAndRun",
+                    "when": "resourceLangId == smallbasic",
+                    "group": "navigation"
+                }
             ]
         },
         "keybindings": [
@@ -88,6 +98,11 @@
             {
                 "command": "smallbasic.compile",
                 "key": "ctrl+shift+b",
+                "when": "resourceLangId == smallbasic"
+            },
+            {
+                "command": "smallbasic.run",
+                "key": "ctrl+f5",
                 "when": "resourceLangId == smallbasic"
             }
         ],
