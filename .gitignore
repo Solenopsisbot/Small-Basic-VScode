@@ -1,0 +1,34 @@
+# Dependency directories
+node_modules/
+npm-debug.log
+
+# Output directories
+out/
+dist/
+*.vsix
+
+# Editor directories and files
+.idea/
+.vscode-test/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# System files
+.DS_Store
+Thumbs.db
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Compiled JavaScript source maps
+*.js.map
+
+# Small Basic compiled executables
+*.exe
+
+# Test files
+test.sb
+plan.txt

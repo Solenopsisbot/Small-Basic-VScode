@@ -1,0 +1,67 @@
+{
+	"Print to TextWindow": {
+		"prefix": "print",
+		"body": [
+			"TextWindow.WriteLine(\"$1\");",
+			"$2"
+		],
+		"description": "Prints text to the TextWindow"
+	},
+	"Read from TextWindow": {
+		"prefix": "read",
+		"body": [
+			"TextWindow.Read();",
+			"$1"
+		],
+		"description": "Reads input from the TextWindow"
+	},
+	"GraphicsWindow basic": {
+		"prefix": "gwbasic",
+		"body": [
+			"GraphicsWindow.Title = \"$1\";",
+			"GraphicsWindow.BackgroundColor = \"White\";",
+			"GraphicsWindow.Width = 640;",
+			"GraphicsWindow.Height = 480;",
+			"$2"
+		],
+		"description": "Sets up a basic GraphicsWindow"
+	},
+	"Subroutine": {
+		"prefix": "sub",
+		"body": [
+			"Sub $1",
+			"\t$2",
+			"EndSub"
+		],
+		"description": "Defines a subroutine"
+	},
+	"For Loop": {
+		"prefix": "for",
+		"body": [
+			"For $1 = $2 To $3",
+			"\t$4",
+			"Next"
+		],
+		"description": "Creates a For loop"
+	},
+	"While Loop": {
+		"prefix": "while",
+		"body": [
+			"While $1",
+			"\t$2",
+			"EndWhile"
+		],
+		"description": "Creates a While loop"
+	},
+	"If Then Else": {
+		"prefix": "if",
+		"body": [
+			"If $1 Then",
+			"\t$2",
+			"Else",
+			"\t$3",
+			"EndIf"
+		],
+		"description": "Creates an If-Then-Else block"
+	}
+}

@@ -1,0 +1,53 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Extension",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js"
+            ],
+            "preLaunchTask": "${defaultBuildTask}"
+        },
+        {
+            "name": "Small Basic: Compile",
+            "type": "node",
+            "request": "launch",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/out/smallBasicCompiler.js",
+            "args": ["${file}"],
+            "presentation": {
+                "group": "smallbasic",
+                "order": 1
+            }
+        },
+        {
+            "name": "Small Basic: Run Compiled",
+            "type": "node",
+            "request": "launch",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/out/smallBasicRunner.js",
+            "args": ["${fileDirname}\\${fileBasenameNoExtension}.exe"],
+            "presentation": {
+                "group": "smallbasic",
+                "order": 2
+            }
+        },
+        {
+            "name": "Small Basic: Compile and Run",
+            "type": "node",
+            "request": "launch",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/out/compileAndRun.js",
+            "args": ["${file}"],
+            "presentation": {
+                "group": "smallbasic",
+                "order": 3
+            }
+        }
+    ]
+}

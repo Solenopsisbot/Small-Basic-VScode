@@ -1,0 +1,47 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Small Basic",
+    "scopeName": "source.smallbasic",
+    "fileTypes": ["sb"],
+    "patterns": [
+        {
+            "name": "keyword.control.smallbasic",
+            "match": "\\b(If|Then|Else|ElseIf|EndIf|For|To|Step|Next|While|EndWhile|Sub|EndSub|Goto|Label|Return)\\b"
+        },
+        {
+            "name": "keyword.operator.smallbasic",
+            "match": "\\b(And|Or|Not)\\b|[=<>\\+\\-\\*\\/\\^]"
+        },
+        {
+            "name": "support.class.smallbasic",
+            "match": "\\b(TextWindow|GraphicsWindow|Math|Clock|File|Network|Program|Shapes|Stack|Turtle|Timer|ImageList|Flickr|Sound|Mouse|Text)\\b"
+        },
+        {
+            "name": "support.function.smallbasic",
+            "match": "\\b(TextWindow|GraphicsWindow|Math|Clock|File|Network|Program|Shapes|Stack|Turtle)\\b"
+        },
+        {
+            "name": "string.quoted.double.smallbasic",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [
+                {
+                    "name": "constant.character.escape.smallbasic",
+                    "match": "\\\\."
+                }
+            ]
+        },
+        {
+            "name": "comment.line.apostrophe.smallbasic",
+            "match": "'.*$"
+        },
+        {
+            "name": "constant.numeric.smallbasic",
+            "match": "\\b\\d+(\\.\\d+)?\\b"
+        },
+        {
+            "name": "variable.name.smallbasic",
+            "match": "\\b[A-Za-z]\\w*(?![\\w\\.])\\b"
+        }
+    ]
+}

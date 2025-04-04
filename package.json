@@ -1,0 +1,148 @@
+{
+    "name": "small-basic-vscode-extension",
+    "displayName": "Small Basic VSCode Extension",
+    "description": "VSCode extension for the Small Basic language",
+    "publisher": "Solenopsisbot",
+    "version": "0.1.2",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Solenopsisbot/Small-Basic-VScode"
+    },
+    "engines": {
+        "vscode": "^1.85.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "smallbasic",
+                "aliases": ["Small Basic"],
+                "extensions": [".sb"],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "smallbasic",
+                "scopeName": "source.smallbasic",
+                "path": "./syntaxes/smallbasic.tmLanguage.json"
+            }
+        ],
+        "configurationDefaults": {},
+        "snippets": [
+            {
+                "language": "smallbasic",
+                "path": "./snippets/smallbasic.json"
+            }
+        ],
+        "commands": [
+            {
+                "command": "smallbasic.compileAndRun",
+                "title": "Small Basic: Compile and Run",
+                "icon": "$(play)"
+            },
+            {
+                "command": "smallbasic.compile",
+                "title": "Small Basic: Compile",
+                "icon": "$(gear)"
+            },
+            {
+                "command": "smallbasic.run",
+                "title": "Small Basic: Run",
+                "icon": "$(play-circle)"
+            }
+        ],
+        "menus": {
+            "editor/title/run": [
+                {
+                    "command": "smallbasic.compileAndRun",
+                    "when": "resourceLangId == smallbasic"
+                }
+            ],
+            "editor/context": [
+                {
+                    "command": "smallbasic.compileAndRun",
+                    "when": "resourceLangId == smallbasic",
+                    "group": "1_run"
+                },
+                {
+                    "command": "smallbasic.compile",
+                    "when": "resourceLangId == smallbasic",
+                    "group": "1_run"
+                },
+                {
+                    "command": "smallbasic.run",
+                    "when": "resourceLangId == smallbasic",
+                    "group": "1_run"
+                }
+            ]
+        },
+        "keybindings": [
+            {
+                "command": "smallbasic.compileAndRun",
+                "key": "f5",
+                "when": "resourceLangId == smallbasic && !inDebugMode"
+            },
+            {
+                "command": "smallbasic.compile",
+                "key": "ctrl+shift+b",
+                "when": "resourceLangId == smallbasic"
+            }
+        ],
+        "debuggers": [
+            {
+                "type": "smallbasic",
+                "languages": ["smallbasic"],
+                "label": "Small Basic",
+                "configurationAttributes": {
+                    "launch": {
+                        "required": ["program"],
+                        "properties": {
+                            "program": {
+                                "type": "string",
+                                "description": "Path to Small Basic file to compile and run",
+                                "default": "${workspaceFolder}/${relativeFileDirname}/${fileBasenameNoExtension}.sb"
+                            }
+                        }
+                    }
+                },
+                "initialConfigurations": [
+                    {
+                        "type": "smallbasic",
+                        "request": "launch",
+                        "name": "Small Basic: Compile and Run",
+                        "program": "${workspaceFolder}/${relativeFileDirname}/${fileBasenameNoExtension}.sb"
+                    }
+                ],
+                "configurationSnippets": [
+                    {
+                        "label": "Small Basic: Compile and Run",
+                        "description": "A sample configuration to compile and run a Small Basic program",
+                        "body": {
+                            "type": "smallbasic",
+                            "request": "launch",
+                            "name": "${1:Launch Small Basic Program}",
+                            "program": "${workspaceFolder}\\${relativeFileDirname}\\${fileBasenameNoExtension}.sb"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "main": "./out/vsc-extension.js",
+    "devDependencies": {
+        "typescript": "^5.3.3",
+        "@types/node": "^20.11.19",
+        "@types/vscode": "^1.85.0",
+        "@vscode/vsce": "^2.23.0"
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc",
+        "watch": "tsc -w",
+        "package": "vsce package",
+        "publish": "vsce publish"
+    }
+}
