@@ -1,6 +1,6 @@
 # Small Basic VSCode Extension
 
-This extension adds Small Basic language support to Visual Studio Code, making it easier to write, compile, and run Small Basic programs.
+This extension adds Microsoft Small Basic language support to Visual Studio Code, making it easier to write, compile, and run Small Basic programs.
 
 ## Features
 
@@ -8,12 +8,17 @@ This extension adds Small Basic language support to Visual Studio Code, making i
 - IntelliSense with autocompletion for built-in objects and methods
 - One-click compile and run functionality
 - Code snippets for common Small Basic constructs
+- Syntax checking with quick fixes
 - Context menu and keyboard shortcuts for common operations
+- Auto-formatting to keep your code neat and organized
 
 ## Requirements
 
 - Microsoft Small Basic must be installed on your system
-- Typical installation path: `C:\Program Files (x86)\Microsoft\Small Basic\`
+  - Download from the [Small Basic website](https://smallbasic-publicwebsite.azurewebsites.net/)
+  - Typical installation path: `C:\Program Files (x86)\Microsoft\Small Basic\`
+- Windows operating system (Small Basic is Windows-only)
+- VS Code version 1.85.0 or higher
 
 ## Getting Started
 
@@ -47,6 +52,26 @@ Type one of these prefixes and press Tab:
 - `while`: Insert While loop structure
 - `sub`: Insert Subroutine structure
 - `if`: Insert If-Then-Else structure
+- `ifthen`: Insert If-Then structure (without Else)
+- `array`: Insert Array operations
+- `rectangle`: Insert GraphicsWindow rectangle drawing
+- `turtle`: Insert Turtle movement code
+- `elseif`: Insert If-ElseIf-Else structure
+
+## Extension Settings
+
+You can customize the extension through the "Small Basic: Settings" command:
+
+- **Compiler Path**: Set custom path to the Small Basic compiler
+- **Syntax Check Level**: Choose between minimal, standard, or strict checking
+- **Auto Format on Save**: Enable or disable automatic formatting when you save
+
+## Troubleshooting
+
+- If compilation fails, check that Small Basic is correctly installed
+- Ensure your file has a `.sb` extension
+- Look for syntax errors in the Problems panel
+- Check the compiler output panel for detailed error messages
 
 ## Acknowledgements
 

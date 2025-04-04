@@ -2,7 +2,7 @@
 	"Print to TextWindow": {
 		"prefix": "print",
 		"body": [
-			"TextWindow.WriteLine(\"$1\");",
+			"TextWindow.WriteLine(\"$1\")",
 			"$2"
 		],
 		"description": "Prints text to the TextWindow"
@@ -10,7 +10,7 @@
 	"Read from TextWindow": {
 		"prefix": "read",
 		"body": [
-			"TextWindow.Read();",
+			"TextWindow.Read()",
 			"$1"
 		],
 		"description": "Reads input from the TextWindow"
@@ -18,10 +18,10 @@
 	"GraphicsWindow basic": {
 		"prefix": "gwbasic",
 		"body": [
-			"GraphicsWindow.Title = \"$1\";",
-			"GraphicsWindow.BackgroundColor = \"White\";",
-			"GraphicsWindow.Width = 640;",
-			"GraphicsWindow.Height = 480;",
+			"GraphicsWindow.Title = \"$1\"",
+			"GraphicsWindow.BackgroundColor = \"White\"",
+			"GraphicsWindow.Width = 640",
+			"GraphicsWindow.Height = 480",
 			"$2"
 		],
 		"description": "Sets up a basic GraphicsWindow"
@@ -57,11 +57,61 @@
 		"prefix": "if",
 		"body": [
 			"If $1 Then",
-			"\t$2",
+			"  $2",
 			"Else",
-			"\t$3",
+			"  $3",
 			"EndIf"
 		],
 		"description": "Creates an If-Then-Else block"
+	},
+	"If Then": {
+		"prefix": "ifthen",
+		"body": [
+			"If $1 Then",
+			"  $2",
+			"EndIf"
+		],
+		"description": "Creates an If-Then block without Else"
+	},
+	"Array Operations": {
+		"prefix": "array",
+		"body": [
+			"Array.SetValue($1, $2, $3)",
+			"value = Array.GetValue($1, $2)"
+		],
+		"description": "Common Array operations in Small Basic"
+	},
+	"Graphics Rectangle": {
+		"prefix": "rectangle",
+		"body": [
+			"GraphicsWindow.PenColor = \"$1\"",
+			"GraphicsWindow.BrushColor = \"$2\"",
+			"GraphicsWindow.DrawRectangle($3, $4, $5, $6)"
+		],
+		"description": "Draws a rectangle in GraphicsWindow"
+	},
+	"Turtle Movement": {
+		"prefix": "turtle",
+		"body": [
+			"Turtle.Speed = $1",
+			"Turtle.PenDown()",
+			"Turtle.Move($2)",
+			"Turtle.Turn($3)",
+			"Turtle.Move($4)"
+		],
+		"description": "Basic Turtle movement pattern"
+	},
+	"ElseIf Structure": {
+		"prefix": "elseif",
+		"body": [
+			"If $1 Then",
+			"  $2",
+			"ElseIf $3 Then",
+			"  $4",
+			"Else",
+			"  $5",
+			"EndIf"
+		],
+		"description": "Creates an If-ElseIf-Else structure"
 	}
 }

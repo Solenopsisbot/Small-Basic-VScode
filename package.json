@@ -3,7 +3,7 @@
     "displayName": "Small Basic VSCode Extension",
     "description": "VSCode extension for the Small Basic language",
     "publisher": "Solenopsisbot",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "repository": {
         "type": "git",
         "url": "https://github.com/Solenopsisbot/Small-Basic-VScode"
@@ -55,6 +55,30 @@
                 "title": "Small Basic: Run",
                 "icon": "$(play-circle)",
                 "enablement": "resourceLangId == smallbasic"
+            },
+            {
+                "command": "smallbasic.checkSyntax",
+                "title": "Small Basic: Check Syntax",
+                "icon": "$(bracket)",
+                "enablement": "resourceLangId == smallbasic"
+            },
+            {
+                "command": "smallbasic.showStats",
+                "title": "Small Basic: Show Program Statistics",
+                "icon": "$(graph)",
+                "enablement": "resourceLangId == smallbasic"
+            },
+            {
+                "command": "smallbasic.showDocs",
+                "title": "Small Basic: Show Documentation",
+                "icon": "$(book)",
+                "enablement": "editorLangId == smallbasic"
+            },
+            {
+                "command": "smallbasic.settings",
+                "title": "Small Basic: Settings",
+                "icon": "$(gear)",
+                "enablement": "resourceLangId == smallbasic || editorLangId == smallbasic"
             }
         ],
         "menus": {
@@ -79,6 +103,26 @@
                     "command": "smallbasic.run",
                     "when": "resourceLangId == smallbasic",
                     "group": "1_run"
+                },
+                {
+                    "command": "smallbasic.checkSyntax",
+                    "when": "resourceLangId == smallbasic",
+                    "group": "1_run"
+                },
+                {
+                    "command": "smallbasic.showStats",
+                    "when": "resourceLangId == smallbasic",
+                    "group": "1_run"
+                },
+                {
+                    "command": "smallbasic.showDocs",
+                    "when": "resourceLangId == smallbasic",
+                    "group": "navigation"
+                },
+                {
+                    "command": "smallbasic.settings",
+                    "when": "resourceLangId == smallbasic",
+                    "group": "2_configuration"
                 }
             ],
             "explorer/context": [

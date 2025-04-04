@@ -1,6 +1,8 @@
 import * as cp from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
+import { checkSyntax } from './syntaxChecker';
+import { getConfig } from './configUtils';
 
 // Get the file to compile from command line arguments
 const fileToCompile = process.argv[2];
@@ -13,26 +15,56 @@ if (!fileToCompile) {
 // Ensure we have an absolute path
 const absoluteFilePath = path.resolve(fileToCompile);
 
+// Get extension path from environment variable
+const extensionPath = process.env.EXTENSION_PATH || path.resolve(__dirname, '..');
+
 // Check if the source file exists
 if (!fs.existsSync(absoluteFilePath)) {
     console.error(`Source file not found: ${absoluteFilePath}`);
     process.exit(1);
 }
 
+// First, check syntax
+console.log(`Checking syntax: ${absoluteFilePath}`);
+const syntaxErrors = checkSyntax(absoluteFilePath);
+
+if (syntaxErrors.length > 0) {
+    console.log('Syntax check found issues:');
+    let hasErrors = false;
+    
+    syntaxErrors.forEach(error => {
+        if (error.severity === 'error') {
+            console.error(`Line ${error.line}: ${error.message}`);
+            hasErrors = true;
+        } else {
+            console.warn(`Line ${error.line}: ${error.message}`);
+        }
+    });
+    
+    // Only exit if there are actual errors, not just warnings
+    if (hasErrors) {
+        console.error('Syntax errors found. Please fix them before compiling.');
+        process.exit(1);
+    } else {
+        console.warn('Warnings found. Proceeding with compilation...');
+    }
+} else {
+    console.log('Syntax check passed.');
+}
+
 // Get the directory of the source file - we'll compile from here
 const sourceDir = path.dirname(absoluteFilePath);
 
-// Path to Small Basic compiler
-const compilerPath = 'C:\\Program Files (x86)\\Microsoft\\Small Basic\\SmallBasicCompiler.exe';
-const alternateCompilerPath = 'C:\\Program Files\\Microsoft\\Small Basic\\SmallBasicCompiler.exe';
+// Load compiler configuration
+const config = getConfig(extensionPath);
 
 // Select the correct compiler path
-let actualCompilerPath = compilerPath;
-if (!fs.existsSync(compilerPath)) {
-    if (fs.existsSync(alternateCompilerPath)) {
-        actualCompilerPath = alternateCompilerPath;
+let actualCompilerPath = config.compilerPath;
+if (!fs.existsSync(actualCompilerPath)) {
+    if (fs.existsSync(config.alternateCompilerPath)) {
+        actualCompilerPath = config.alternateCompilerPath;
     } else {
-        console.error(`Small Basic compiler not found at: ${compilerPath} or ${alternateCompilerPath}`);
+        console.error(`Small Basic compiler not found at: ${config.compilerPath} or ${config.alternateCompilerPath}`);
         console.error('Please make sure Microsoft Small Basic is installed correctly.');
         process.exit(1);
     }
