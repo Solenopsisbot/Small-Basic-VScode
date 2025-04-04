@@ -84,6 +84,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
         
         const filePath = editor.document.uri.fsPath;
+        const fileDir = path.dirname(filePath);
         const compilerScriptPath = path.join(extensionPath, 'out', 'smallBasicCompiler.js');
         
         // Verify the compiler script exists
@@ -101,7 +102,8 @@ export function activate(context: vscode.ExtensionContext) {
         try {
             const compilation = cp.spawnSync('node', [compilerScriptPath, filePath], {
                 encoding: 'utf8',
-                env: { ...process.env, EXTENSION_PATH: extensionPath }
+                env: { ...process.env, EXTENSION_PATH: extensionPath },
+                cwd: fileDir // Set current working directory to the source file's directory
             });
             
             if (compilation.stderr && compilation.stderr.length > 0) {
@@ -134,6 +136,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
         
         const filePath = editor.document.uri.fsPath;
+        const fileDir = path.dirname(filePath);
         const exePath = filePath.replace(/\.sb$/i, '.exe');
         
         if (!fs.existsSync(exePath)) {
@@ -151,7 +154,8 @@ export function activate(context: vscode.ExtensionContext) {
             cp.spawn('node', [runnerScriptPath, exePath], {
                 detached: true,
                 stdio: 'ignore',
-                env: { ...process.env, EXTENSION_PATH: extensionPath }
+                env: { ...process.env, EXTENSION_PATH: extensionPath },
+                cwd: fileDir // Set current working directory to the source file's directory
             }).unref();
             
             outputChannel.appendLine('Program launched');
