@@ -263,10 +263,24 @@ export function checkSyntax(filePath: string): SyntaxError[] {
             const subCallMatch = codeLine.match(/\b([A-Za-z]\w*)\s*\(\)/);
             if (subCallMatch && subCallMatch[1]) {
                 const subName = subCallMatch[1].toLowerCase();
-                if (!subroutineCalls[subName]) {
-                    subroutineCalls[subName] = [];
+                // Exclude built-in method calls from being marked as subroutines
+                const knownMethods = [
+                    'clear', 'read', 'readline', 'write', 'writeline', 'readnumber', 'readkey',
+                    'show', 'hide', 'getpictureofmoment', 'getrandompicture', 'popvalue', 'pushvalue',
+                    'getitemcount', 'playmusic', 'playmusicandwait', 'playchime', 'playchimes', 
+                    'playchimesandwait', 'play', 'playandwait', 'getwebpagecontents', 'downloadfile',
+                    'playtocompletion', 'playbellring'
+                ];
+                
+                // Check if calling a method on an object (not a standalone subroutine)
+                const isMethodCall = line.substring(0, subCallMatch.index).trim().endsWith('.');
+                
+                if (!isMethodCall && !knownMethods.includes(subName.toLowerCase())) {
+                    if (!subroutineCalls[subName]) {
+                        subroutineCalls[subName] = [];
+                    }
+                    subroutineCalls[subName].push(lineNum);
                 }
-                subroutineCalls[subName].push(lineNum);
             }
             
             // Check for potential object member errors
@@ -280,6 +294,12 @@ export function checkSyntax(filePath: string): SyntaxError[] {
                         
                         // Find the position of this object access in the line
                         const callIndex = codeLine.indexOf(call);
+                        
+                        // Skip URL literals in strings
+                        const isInUrlString = isWithinUrlString(codeLine, callIndex);
+                        if (isInUrlString) {
+                            return; // Skip this error check for URLs
+                        }
                         
                         // Check for common misspellings of objects
                         const validObjects = [
@@ -574,11 +594,11 @@ function findSubroutineDefinition(lines: string[], subName: string): number {
 }
 
 function checkInvalidMember(objName: string, memberName: string): string | null {
-    // Import from a centralized definition of Small Basic objects and members
+    // Get members from centralized definition
     const members = getObjectMembers();
     
-    if (objName in members) {
-        const validMembers = members[objName];
+    if (objName.toLowerCase() in members) {
+        const validMembers = members[objName.toLowerCase()];
         if (!validMembers.includes(memberName.toLowerCase())) {
             // Find closest match
             const closestMatch = findClosestMatch(memberName.toLowerCase(), validMembers);
@@ -622,9 +642,9 @@ function getObjectMembers(): { [key: string]: string[] } {
         'clock': ['hour', 'minute', 'second', 'date', 'day', 'month', 'year', 'weekday', 'time'],
         
         'sound': ['play', 'playandwait', 'playchime', 'playchimes', 'playchimesandwait', 'playmusic', 
-                'playmusicandwait', 'stop'],
+                'playmusicandwait', 'stop', 'playtocompletion', 'playbellring'],
         
-        'program': ['delay', 'end', 'pause', 'directory', 'arguments', 'setarguments', 'restart'],
+        'program': ['delay', 'end', 'pause', 'directory', 'arguments', 'setarguments', 'restart', 'version'],
         
         'timer': ['interval', 'isenabled', 'tick', 'pause', 'resume'],
         
@@ -643,7 +663,7 @@ function getObjectMembers(): { [key: string]: string[] } {
         
         'mouse': ['mousex', 'mousey', 'isleftbuttondown', 'ismiddlebuttondown', 'isrightbuttondown', 'buttondown'],
         
-        'flickr': ['getpictureofmoment', 'getrandompicture', 'getpictureofmomentfortag'],
+        'flickr': ['getpictureofmoment', 'getrandompicture', 'getpictureofmomentfortag', 'getpicturelist'],
         
         'controls': ['addbutton', 'addtextbox', 'buttonclicked', 'getbuttoncaption', 'gettextboxtext', 
                    'hidecontrol', 'remove', 'setbuttoncaption', 'settextboxtext', 'showcontrol', 'texttyped', 
@@ -673,7 +693,7 @@ function getObjectMethods(): { [key: string]: string[] } {
                'max', 'min', 'power', 'round', 'sin', 'squareroot', 'tan', 'getrandomnumber', 'remainder'],
         
         'file': ['readcontents', 'writecontents', 'appendcontents', 'gettemporaryfilepath', 'getsettingsfilepath', 
-               'copyfile', 'deletefile', 'insertline', 'readline', 'writeline', 'createdirectory', 'deletedirectory', 
+               'copyfile', 'deletefile', 'insertline', 'readline', 'writeline', 'createdirectory', 'deletedirectory',
                'getdirectories', 'getfiles'],
         
         'program': ['delay', 'end', 'pause', 'restart', 'setarguments'],
@@ -763,8 +783,8 @@ function levenshteinDistance(a: string, b: string): number {
 function isMethod(objectName: string, memberName: string): boolean {
     const methods = getObjectMethods();
     
-    if (objectName in methods) {
-        return methods[objectName].includes(memberName.toLowerCase());
+    if (objectName.toLowerCase() in methods) {
+        return methods[objectName.toLowerCase()].includes(memberName.toLowerCase());
     }
     
     return false;
@@ -783,5 +803,34 @@ function isKeywordOrBuiltin(word: string): boolean {
         'dictionary', 'desktop', 'array'
     ];
     
-    return keywords.includes(word) || builtins.includes(word);
+    return keywords.includes(word.toLowerCase()) || builtins.includes(word.toLowerCase());
+}
+
+function isWithinUrlString(line: string, position: number): boolean {
+    // Look for quotes before and after this position
+    let inString = false;
+    let stringStart = -1;
+    
+    for (let i = 0; i < line.length; i++) {
+        if (line[i] === '"') {
+            if (inString) {
+                // End of string
+                const stringContent = line.substring(stringStart, i);
+                // Check if our position is within this string and the string contains a URL
+                if (position > stringStart && position < i && 
+                    (stringContent.includes("http://") || 
+                     stringContent.includes("https://") || 
+                     stringContent.includes("www.") ||
+                     /\.\w{2,}/.test(stringContent))) { // matches domain extensions
+                    return true;
+                }
+                inString = false;
+            } else {
+                // Start of string
+                stringStart = i;
+                inString = true;
+            }
+        }
+    }
+    return false;
 }

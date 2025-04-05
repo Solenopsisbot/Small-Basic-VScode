@@ -3,7 +3,7 @@
     "displayName": "Small Basic VSCode Extension",
     "description": "VSCode extension for the Small Basic language",
     "publisher": "Solenopsisbot",
-    "version": "0.1.3",
+    "version": "0.3.1",
     "repository": {
         "type": "git",
         "url": "https://github.com/Solenopsisbot/Small-Basic-VScode"

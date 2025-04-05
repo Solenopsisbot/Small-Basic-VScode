@@ -348,7 +348,8 @@ export class SmallBasicCompletionProvider implements vscode.CompletionItemProvid
             members: [
                 { name: 'GetPictureOfMoment', type: 'method', description: 'Gets the picture of the moment' },
                 { name: 'GetRandomPicture', type: 'method', description: 'Gets a random picture' },
-                { name: 'GetPictureOfMomentForTag', type: 'method', description: 'Gets a picture for a specific tag' }
+                { name: 'GetPictureOfMomentForTag', type: 'method', description: 'Gets a picture for a specific tag' },
+                { name: 'GetPictureList', type: 'method', description: 'Gets a list of pictures for a search term' }
             ]
         },
         {

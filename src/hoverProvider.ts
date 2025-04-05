@@ -1105,8 +1105,21 @@ export class SmallBasicHoverProvider implements vscode.HoverProvider {
                     example: 'Turtle.TurnTowards(100, 100)'
                 }
             ]
+        },
+        {
+            name: 'Flickr',
+            description: 'Provides methods for retrieving images from Flickr',
+            members: [
+                {
+                    name: 'GetPictureList',
+                    type: 'method',
+                    description: 'Gets a list of pictures for a search term',
+                    parameters: ['searchTerm: string'],
+                    returnType: 'array',
+                    example: 'imageList = Flickr.GetPictureList("flowers")'
+                }
+            ]
         }
-        // Additional objects can be added here
     ];
 
     public provideHover(
